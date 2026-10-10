@@ -20,6 +20,11 @@ public class PlayerMovement : MonoBehaviour
     public Transform camera;
 
 
+    public Animator animator;
+    private bool isWalking = false;
+    private bool hasJumped = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         isGrounded = controller.isGrounded;
+        ProcessAnimations();
     }
 
     public void ProcessMovement(Vector2 input)
@@ -55,6 +61,12 @@ public class PlayerMovement : MonoBehaviour
 
             //Move Player
             controller.Move(targetDirection.normalized * speed * Time.deltaTime);
+
+            isWalking = true;
+        }
+        else
+        {
+            isWalking = false;
         }
 
         ProcessGravity();
@@ -63,7 +75,11 @@ public class PlayerMovement : MonoBehaviour
     private void ProcessGravity()
     {
         if (isGrounded && playerVelocity.y < 0)
+        {
             playerVelocity.y = -2f;
+            hasJumped = false;
+        }
+            
 
         playerVelocity.y += gravity * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
@@ -74,7 +90,16 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded)
         {
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
+            
+            hasJumped = true;
         }
     }
 
+    private void ProcessAnimations()
+    {
+        animator.SetBool("IsWalking", isWalking);
+        animator.SetBool("IsGrounded", isGrounded);
+        animator.SetBool("HasJumped", hasJumped);
+        
+    }
 }
