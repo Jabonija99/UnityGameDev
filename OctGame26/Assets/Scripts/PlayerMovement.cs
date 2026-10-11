@@ -90,7 +90,6 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded)
         {
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
-            
             hasJumped = true;
         }
     }
