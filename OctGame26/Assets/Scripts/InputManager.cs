@@ -7,13 +7,18 @@ public class InputManager : MonoBehaviour
     private PlayerInput playerInput;
     private PlayerInput.OnFootActions onFoot;
     private PlayerMovement movement;
+    private PlayerThrow playerThrow;
 
     void Awake()
     {
         playerInput = new PlayerInput();
         onFoot = playerInput.OnFoot;
         movement = GetComponent<PlayerMovement>();
+        playerThrow = GetComponent<PlayerThrow>();
         onFoot.Jump.performed += ctx => movement.ProcessJump();
+        onFoot.Throw.performed += ctx => playerThrow.ProcessThrow();
+        onFoot.Aim.started += ctx => playerThrow.StartAim();
+        onFoot.Aim.canceled += ctx => playerThrow.StopAim();
 
     }
 
