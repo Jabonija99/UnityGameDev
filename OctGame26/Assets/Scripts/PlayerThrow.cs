@@ -66,7 +66,7 @@ public class PlayerThrow : MonoBehaviour
         lineRenderer.enabled = true;
         lineRenderer.positionCount = Mathf.CeilToInt(linePoints / timeBetweenPoints + 1);
         Vector3 releasePosition = startPosition.position; 
-        Vector3 startVelocity = throwForce * (camera.transform.forward + throwDirection);
+        Vector3 startVelocity = throwForce * (camera.transform.forward + throwDirection).normalized;
         int i = 0;
         lineRenderer.SetPosition(i, releasePosition);
         for(float time = 0; time < linePoints; time += timeBetweenPoints)

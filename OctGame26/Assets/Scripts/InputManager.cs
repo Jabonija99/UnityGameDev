@@ -7,7 +7,10 @@ public class InputManager : MonoBehaviour
     private PlayerInput playerInput;
     private PlayerInput.OnFootActions onFoot;
     private PlayerMovement movement;
+
     private PlayerThrow playerThrow;
+
+    private ProjectileThrow projectileThrow;
 
     void Awake()
     {
@@ -15,10 +18,18 @@ public class InputManager : MonoBehaviour
         onFoot = playerInput.OnFoot;
         movement = GetComponent<PlayerMovement>();
         playerThrow = GetComponent<PlayerThrow>();
+        projectileThrow = GetComponent<ProjectileThrow>();
         onFoot.Jump.performed += ctx => movement.ProcessJump();
-        onFoot.Throw.performed += ctx => playerThrow.ProcessThrow();
-        onFoot.Aim.started += ctx => playerThrow.StartAim();
-        onFoot.Aim.canceled += ctx => playerThrow.StopAim();
+
+        onFoot.Throw.performed += ctx => projectileThrow.ThrowObject();
+        onFoot.Aim.started += ctx => projectileThrow.StartAim();
+        onFoot.Aim.canceled += ctx => projectileThrow.StopAim();
+
+
+        //onFoot.Throw.performed += ctx => playerThrow.ProcessThrow();
+        //onFoot.Aim.started += ctx => playerThrow.StartAim();
+        //onFoot.Aim.canceled += ctx => playerThrow.StopAim();
+
 
     }
 
