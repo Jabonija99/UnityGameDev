@@ -6,6 +6,7 @@ public class StateMachine : MonoBehaviour
 {
 
     public BaseState activeState;
+    public PatrolState patrolState;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +25,8 @@ public class StateMachine : MonoBehaviour
 
     public void Initialize()
     {
-        //Set default state
+        patrolState = new PatrolState();
+        ChangeState(patrolState);
     }
 
     public void ChangeState(BaseState newState)
@@ -39,6 +41,7 @@ public class StateMachine : MonoBehaviour
         if(activeState != null)
         {
             activeState.statemachine = this;
+            activeState.npc = GetComponent<NpcController>();
             activeState.Enter();
         }
     }
